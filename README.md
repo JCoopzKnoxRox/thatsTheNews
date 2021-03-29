@@ -60,3 +60,6 @@ flask run
 
 Lucas Hild - [https://lucas-hild.de](https://lucas-hild.de)  
 This project is licensed under the MIT License - see the LICENSE file for details
+
+## Update
+Updated to Vue 3 by me (@mrmechko).
