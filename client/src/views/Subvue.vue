@@ -11,7 +11,7 @@
     
     <SubvueInfo class="subvue-info" v-if="subvue" :subvue="subvue"></SubvueInfo>
     <!-- Only show it if data was fetched -->
-    <div v-else=""></div>
+    <div v-else></div>
   </div>
 
 </template>

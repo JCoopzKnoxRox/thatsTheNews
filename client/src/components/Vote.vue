@@ -20,13 +20,20 @@ export default {
     name: 'vote',
 
     props: ['upvotes', 'downvotes', 'postId'],
+    data(){
+        return {
+            upVoteData: this.upvotes,
+            downVoteData: this.downvotes,
+        }
+
+    },
 
     methods: {
         upVote() {
             PostsService.upVote(this.postId)
                 .then(response => {
-                    this.upvotes = response.data.upvotes
-                    this.downvotes = response.data.downvotes
+                    this.upVoteData = response.data.upvotes
+                    this.downVoteData = response.data.downvotes
                 })
                 .catch(e => {
                     this.$emit('error', e.response.data.error)
@@ -36,8 +43,8 @@ export default {
         downVote() {
             PostsService.downVote(this.postId)
                 .then(response => {
-                    this.upvotes = response.data.upvotes
-                    this.downvotes = response.data.downvotes
+                    this.upVoteData = response.data.upvotes
+                    this.downVoteData = response.data.downvotes
                 })
                 .catch(e => {
                     this.$emit('error', e.response.data.error)
@@ -47,7 +54,7 @@ export default {
 
     computed: {
         voting() {
-            return this.upvotes.length - this.downvotes.length
+            return this.upVoteData.length - this.downVoteData.length
         },
 
         votedUp() {
@@ -55,8 +62,8 @@ export default {
                 return false
             }
 
-            for (var i in this.upvotes) {
-                if (this.upvotes[i].username == store.state.user.username) {
+            for (var i in this.upVoteData) {
+                if (this.downVoteData[i].username == store.state.user.username) {
                     return true
                 }
             }
@@ -68,7 +75,7 @@ export default {
                 return false
             }
 
-            for (var i in this.downvotes) {
+            for (var i in this.downVoteData) {
                 if (this.downvotes[i].username == store.state.user.username) {
                     return true
                 }

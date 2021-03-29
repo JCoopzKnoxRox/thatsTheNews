@@ -1,13 +1,10 @@
-import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 import UsersService from '@/services/UsersService'
 
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default Vuex.createStore({
     plugins: [createPersistedState()],
 
     state: {
@@ -61,4 +58,4 @@ export default new Vuex.Store({
 
     modules: {
     }
-})
+});
