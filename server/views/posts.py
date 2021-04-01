@@ -22,11 +22,11 @@ def posts_create(username: str):
         "subvue": And(str, len, error="Subvue not specified"),
         "content": And(str, len, error="Content not specified"),
     })
-    form = dict(request.form)
-    # for some reason, probably due to some dependency update between
-    # now and when the code was originally written, the form data gets
-    # converted into a dict of lists. the expression below 'unwraps' the lists
-    form = {k: v[0] for k, v in form.items() if v}
+    form = {
+        "title": request.form.get("title"),
+        "subvue": request.form.get("subvue"),
+        "content": request.form.get("content")
+    }
     validated = schema.validate(form)
 
     subvue_permalink = validated["subvue"]
