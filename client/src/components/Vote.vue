@@ -63,7 +63,7 @@ export default {
             }
 
             for (var i in this.upVoteData) {
-                if (this.downVoteData[i].username == store.state.user.username) {
+                if (this.upVoteData[i].username == store.state.user.username) {
                     return true
                 }
             }
@@ -76,7 +76,7 @@ export default {
             }
 
             for (var i in this.downVoteData) {
-                if (this.downvotes[i].username == store.state.user.username) {
+                if (this.downVoteData[i].username == store.state.user.username) {
                     return true
                 }
             }
