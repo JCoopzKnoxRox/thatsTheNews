@@ -44,6 +44,7 @@ export default {
             formData.append('title', this.title)
             formData.append('subvue', this.subvue)
             formData.append('content', this.content)
+            console.log(formData)
 
             // If photo has been set
             if (this.image) {
