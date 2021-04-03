@@ -1,9 +1,11 @@
 import config
+import os
 
 from datetime import date
 from flask import Flask, jsonify, send_from_directory
 from flask.json import JSONEncoder
 from flask_cors import CORS
+#TODO: Check if CORS is properly set in vue
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -63,4 +65,6 @@ def request_entity_too_large(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", True)
+    ENVIRONMENT_PORT = os.environ.get("APP_PORT", 5000)
+    app.run(host='0.0.0.0', port=ENVIRONMENT_PORT, debug=ENVIRONMENT_DEBUG)

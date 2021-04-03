@@ -1,14 +1,17 @@
 import datetime
 import hashlib
+import os
 
 from mongoengine import (
     connect, Document, EmailField, StringField, ListField, ReferenceField, DateTimeField, EmbeddedDocument,
     EmbeddedDocumentField, CASCADE
 )
 
-
-connect("revue")
-
+username = os.environ.get('MONGODB_USERNAME')
+password = os.environ.get('MONGODB_PASSWORD')
+host = os.environ.get('MONGODB_HOSTNAME')
+db = os.environ.get('MONGODB_DATABASE', "revue")
+connect(username=username, password=password, host=host, db=db)
 
 class User(Document):
     email = EmailField(required=True, unique=True)
