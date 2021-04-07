@@ -3,7 +3,7 @@ from schema import Schema, And
 import utils
 from app import app
 from flask import jsonify, request
-from models import Post, User, Comment, Subvue
+from models import Post, User, Comment, Subvue, NewsArticle
 from mongoengine.errors import ValidationError
 from authorization import login_required
 
@@ -13,6 +13,20 @@ def posts_index():
     posts = Post.objects().order_by("-created")
     return jsonify([post.to_public_json() for post in posts])
 
+@app.route("/api/newsarticle")
+def newsarticle_index():
+    newarticles = NewsArticle.objects().order_by("-created")
+    return jsonify([article.to_public_json() for article in newarticles])
+
+@app.route("/api/newsarticle", methods=["POST"])
+@login_required
+def newsarticle_create(username: str):
+    article = NewsArticle(
+        link = "test link",
+        wing = "test wing",
+        text = "some sample text"
+    ).save()
+    return article
 
 @app.route("/api/posts", methods=["POST"])
 @login_required

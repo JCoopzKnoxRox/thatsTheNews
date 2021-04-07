@@ -8,6 +8,9 @@ export default {
   create(post) {
     return Api().post('posts', post)
   },
+  create_article(post) {
+    return Api().post('newsarticle', post)
+  },
 
   delete(id) {
     return Api().delete('posts/id/' + id)

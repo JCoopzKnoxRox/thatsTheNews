@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import os
+# import API for finding news
 
 from mongoengine import (
     connect, Document, EmailField, StringField, ListField, ReferenceField, DateTimeField, EmbeddedDocument,
@@ -12,6 +13,21 @@ password = os.environ.get('MONGODB_PASSWORD')
 host = os.environ.get('MONGODB_HOSTNAME')
 db = os.environ.get('MONGODB_DATABASE', "revue")
 connect(username=username, password=password, host=host, db=db)
+
+class NewsArticle(Document):
+    link = StringField(max_length=50, required=True, unique=False)
+    wing = StringField(max_length=50, required=True, unique=False)
+    text = StringField(max_length=50, required=True, unique=False)
+
+    def to_public_json(self):
+        data = {
+            "link": self.link,
+            "wing": self.wing,
+            "text": self.text
+        }
+
+        return data
+    
 
 class User(Document):
     email = EmailField(required=True, unique=True)

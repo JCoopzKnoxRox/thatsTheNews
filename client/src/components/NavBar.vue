@@ -1,23 +1,8 @@
 <template lang="html">
   <nav>
-    <router-link class="title" :to="{ name: 'Home', params: {} }">ReVue</router-link>
-    <div class="dropdown">
-      <button class="dropbtn">Subvues</button>
-      <div class="dropdown-content">
-        <router-link
-          v-for="subvue in $store.state.subscribedSubvues"
-          :key="subvue.permalink"
-          :to="{ name: 'Subvue', params: {name: subvue.permalink} }"
-          >{{ subvue.name }}</router-link>
-        <router-link class="create-subvue" :to="{ name: 'CreateSubvue' }">Create a Subvue</router-link>
-      </div>
-    </div>
-
-    <router-link v-if="!$store.state.isUserLoggedIn" style="float:right" :to="{ name: 'SignUp', params: {} }">Sign Up</router-link>
-    <router-link v-if="!$store.state.isUserLoggedIn" style="float:right" :to="{ name: 'Login', params: {} }">Login</router-link>
-
-    <a v-if="$store.state.isUserLoggedIn" style="float:right" @click="logout()">Logout</a>
-    <router-link v-if="$store.state.isUserLoggedIn" style="float:right" :to="{ name: 'User', params: { username: $store.state.user.username } }">{{ $store.state.user.username }}</router-link>
+    <router-link class="title" :to="{ name: 'Home', params: {} }">ThatsTheNewsHome</router-link>
+    <router-link class="title" :to="{ name: 'Left', params: {} }">Left Wing News</router-link>
+    <router-link class="title" :to="{ name: 'Right', params: {} }">Right Wing News</router-link>
   </nav>
 </template>
 

@@ -9,6 +9,21 @@ const routes = [
     component: Home
   },
   {
+    path: '/Left',
+    name: 'Left',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Left')
+  },
+  {
+    path: '/Right',
+    name: 'Right',
+    component:  () => import(/* webpackChunkName: "Right" */ '@/views/Right')
+  },
+  {
+    path: '/newsPost',
+    name: 'newsPost',
+    component:  () => import(/* webpackChunkName: "newsPost" */ '@/views/newsPost')
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login')
