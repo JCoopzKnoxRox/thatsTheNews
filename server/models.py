@@ -1,6 +1,8 @@
 import datetime
 import hashlib
 import os
+from newsapi import NewsApiClient
+import requests
 # import API for finding news
 
 from mongoengine import (
@@ -15,9 +17,9 @@ db = os.environ.get('MONGODB_DATABASE', "revue")
 connect(username=username, password=password, host=host, db=db)
 
 class NewsArticle(Document):
-    link = StringField(max_length=50, required=True, unique=False)
-    wing = StringField(max_length=50, required=True, unique=False)
-    text = StringField(max_length=50, required=True, unique=False)
+    link = StringField(max_length=128, required=True, unique=False)
+    wing = StringField(max_length=128, required=True, unique=False)
+    text = StringField(max_length=128, required=True, unique=False)
 
     def to_public_json(self):
         data = {

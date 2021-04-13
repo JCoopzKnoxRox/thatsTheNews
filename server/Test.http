@@ -1,0 +1,2 @@
+
+GET http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2 http/1.1

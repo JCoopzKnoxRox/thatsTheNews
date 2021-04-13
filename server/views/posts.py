@@ -6,30 +6,16 @@ from flask import jsonify, request
 from models import Post, User, Comment, Subvue, NewsArticle
 from mongoengine.errors import ValidationError
 from authorization import login_required
-
+import requests
+import json
 
 @app.route("/api/posts")
 def posts_index():
     posts = Post.objects().order_by("-created")
     return jsonify([post.to_public_json() for post in posts])
 
-@app.route("/api/newsarticle")
-def newsarticle_index():
-    newarticles = NewsArticle.objects().order_by("-created")
-    return jsonify([article.to_public_json() for article in newarticles])
-
-@app.route("/api/newsarticle", methods=["POST"])
-@login_required
-def newsarticle_create(username: str):
-    article = NewsArticle(
-        link = "test link",
-        wing = "test wing",
-        text = "some sample text"
-    ).save()
-    return article
-
 @app.route("/api/posts", methods=["POST"])
-@login_required
+#@login_required
 def posts_create(username: str):
     schema = Schema({
         "title": And(str, len, error="Title not specified"),
@@ -68,6 +54,33 @@ def posts_create(username: str):
 
     return jsonify(post.to_public_json())
 
+@app.route("/api/newsarticle")
+def newsarticle_index():
+    #newarticles = NewsArticle.objects().order_by("-created")
+    #return jsonify([article.to_public_json() for article in newarticles])
+    count = 0
+    print (request.environ.get('SERVER_PROTOCOL'))
+    article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+    news_json = json.loads(article_list.text)
+    for news in (news_json['articles']):
+        if count<1:
+            article = NewsArticle(
+                link = news['url'][:25],
+                wing = news['title'][:25],
+                text = news['description'][:25]
+                ).save()
+            count += 1
+            return article.to_public_json()
+            
+
+@app.route("/api/newsarticle", methods=["POST"])
+def newsarticle_create():
+            article = NewsArticle(
+                link = "test link",
+                wing = "test wing",
+                text = "some sample text"
+                ).save()
+            return article
 
 @app.route("/api/posts/id/<string:id>")
 def posts_item(id: str):
