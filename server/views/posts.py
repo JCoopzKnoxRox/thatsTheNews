@@ -59,9 +59,9 @@ def newsarticle_index():
     #newarticles = NewsArticle.objects().order_by("-created")
     #return jsonify([article.to_public_json() for article in newarticles])
     count = 0
-    print (request.environ.get('SERVER_PROTOCOL'))
     article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
     news_json = json.loads(article_list.text)
+    list = [] 
     for news in (news_json['articles']):
         if count<1:
             article = NewsArticle(
@@ -69,8 +69,10 @@ def newsarticle_index():
                 wing = news['title'][:25],
                 text = news['description'][:25]
                 ).save()
+            #list.append(article)
             count += 1
-            return article.to_public_json()
+    artic = NewsArticle.objects()
+    return jsonify([article.to_public_json() for article in artic])
             
 
 @app.route("/api/newsarticle", methods=["POST"])
