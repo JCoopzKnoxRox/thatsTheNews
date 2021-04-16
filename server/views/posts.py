@@ -59,16 +59,18 @@ def newsarticle_index():
     #newarticles = NewsArticle.objects().order_by("-created")
     #return jsonify([article.to_public_json() for article in newarticles])
     count = 0
+    NewsArticle.objects().delete()
     article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-    news_json = json.loads(article_list.text)
-    list = [] 
+    news_json = json.loads(article_list.text) 
     for news in (news_json['articles']):
-        if count<1:
+        if count<3:
             article = NewsArticle(
-                link = news['url'][:25],
-                wing = news['title'][:25],
-                text = news['description'][:25]
+                link = news['url'],
+                image = news['urlToImage'],
+                wing = news['title'][:255],
+                text = news['description'][:100]
                 ).save()
+
             #list.append(article)
             count += 1
     artic = NewsArticle.objects()

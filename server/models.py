@@ -6,7 +6,7 @@ import requests
 # import API for finding news
 
 from mongoengine import (
-    connect, Document, EmailField, StringField, ListField, ReferenceField, DateTimeField, EmbeddedDocument,
+    connect, Document, EmailField, StringField, URLField, ListField, ReferenceField, DateTimeField, EmbeddedDocument,
     EmbeddedDocumentField, CASCADE
 )
 
@@ -17,13 +17,15 @@ db = os.environ.get('MONGODB_DATABASE', "revue")
 connect(username=username, password=password, host=host, db=db)
 
 class NewsArticle(Document):
-    link = StringField(max_length=128, required=True, unique=False)
+    link = URLField()
+    image = URLField()
     wing = StringField(max_length=128, required=True, unique=False)
     text = StringField(max_length=128, required=True, unique=False)
 
     def to_public_json(self):
         data = {
             "link": self.link,
+            "image": self.image,
             "wing": self.wing,
             "text": self.text
         }
