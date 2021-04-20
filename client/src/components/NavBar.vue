@@ -1,8 +1,8 @@
 <template lang="html">
   <nav>
     <router-link class="title" :to="{ name: 'Home', params: {} }">ThatsTheNewsHome</router-link>
-    <router-link class="title" :to="{ name: 'Left', params: {} }">Left Wing News</router-link>
-    <router-link class="title" :to="{ name: 'Right', params: {} }">Right Wing News</router-link>
+    <router-link class="left" :to="{ name: 'Left', params: {} }">Left Wing News</router-link>
+    <router-link class="right" :to="{ name: 'Right', params: {} }">Right Wing News</router-link>
   </nav>
 </template>
 
@@ -38,6 +38,14 @@ nav a {
 
 .title {
   font-weight: bold;
+}
+.left{
+  font-weight: bold;
+  background-color:rgb(0, 119, 255);
+}
+.right{
+  font-weight: bold;
+  background-color:rgb(255, 0, 0);
 }
 
 .create-subvue {
