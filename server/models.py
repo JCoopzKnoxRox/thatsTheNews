@@ -19,8 +19,8 @@ connect(username=username, password=password, host=host, db=db)
 class NewsArticle(Document):
     link = URLField()
     image = URLField()
-    wing = StringField(max_length=128, required=True, unique=False)
-    text = StringField(max_length=128, required=True, unique=False)
+    wing = StringField(required=True, unique=False)
+    text = StringField(required=True, unique=False)
 
     def to_public_json(self):
         data = {

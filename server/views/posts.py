@@ -8,6 +8,8 @@ from mongoengine.errors import ValidationError
 from authorization import login_required
 import requests
 import json
+from newspaper import Article
+import nlp
 
 @app.route("/api/posts")
 def posts_index():
@@ -60,18 +62,25 @@ def newsarticle_index():
     #return jsonify([article.to_public_json() for article in newarticles])
     count = 0
     NewsArticle.objects().delete()
+    #sort the API return list with arguments: everything?q=Apple&from=2021-04-16&sortBy=popularity
     article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+    #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+    #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
     news_json = json.loads(article_list.text) 
     for news in (news_json['articles']):
-        if count<3:
+        if count<5:
+            art = Article(news['url'])
+            art.download()
+            art.parse()
             article = NewsArticle(
+                #128 characters is the max string length in MONGODB
                 link = news['url'],
                 image = news['urlToImage'],
-                wing = news['title'][:255],
-                text = news['description'][:100]
+                #wing = news['source']['name'][:128],
+                wing = news['title'],
+                #text = news['description'][:100]
+                text = art.text
                 ).save()
-
-            #list.append(article)
             count += 1
     artic = NewsArticle.objects()
     return jsonify([article.to_public_json() for article in artic])
