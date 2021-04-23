@@ -9,7 +9,8 @@ from authorization import login_required
 import requests
 import json
 from newspaper import Article
-import nlp
+from newspaper import Config
+#import nlp
 
 @app.route("/api/posts")
 def posts_index():
@@ -56,34 +57,68 @@ def posts_create(username: str):
 
     return jsonify(post.to_public_json())
 
-@app.route("/api/newsarticle")
-def newsarticle_index():
+@app.route("/api/newsarticle/<string:id>")
+def newsarticle_index(id : str):
     #newarticles = NewsArticle.objects().order_by("-created")
     #return jsonify([article.to_public_json() for article in newarticles])
     count = 0
     NewsArticle.objects().delete()
     #sort the API return list with arguments: everything?q=Apple&from=2021-04-16&sortBy=popularity
-    article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-    #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-    #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-    news_json = json.loads(article_list.text) 
-    for news in (news_json['articles']):
-        if count<5:
-            art = Article(news['url'])
-            art.download()
-            art.parse()
-            article = NewsArticle(
-                #128 characters is the max string length in MONGODB
-                link = news['url'],
-                image = news['urlToImage'],
-                #wing = news['source']['name'][:128],
-                wing = news['title'],
-                #text = news['description'][:100]
-                text = art.text
-                ).save()
-            count += 1
-    artic = NewsArticle.objects()
-    return jsonify([article.to_public_json() for article in artic])
+    article_list = []
+    if id == "right":
+        article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+        news_json = json.loads(article_list.text)
+        #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+        #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+        for news in (news_json['articles']):
+            #len(news_json['articles'])
+            if count<len(news_json['articles']):
+                #user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+                #config = Config()
+                #config.browser_user_agent = user_agent
+                art = Article(news['url'])
+                art.download()
+                art.parse()
+                article = NewsArticle(
+                    #128 characters is the max string length in MONGODB
+                    link = news['url'],
+                    image = news['urlToImage'],
+                    #wing = news['source']['name'][:128],
+                    wing = news['title'],
+                    #text = news['description'][:100]
+                    text = art.text
+                    ).save()
+                count += 1
+        artic = NewsArticle.objects()
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "left":
+        #article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+        article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+        news_json = json.loads(article_list.text)
+        #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
+        for news in (news_json['articles']):
+            #len(news_json['articles'])
+            if count<len(news_json['articles']):
+                #user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+                #config = Config()
+                #config.browser_user_agent = user_agent
+                art = Article(news['url'])
+                art.download()
+                art.parse()
+                article = NewsArticle(
+                    #128 characters is the max string length in MONGODB
+                    link = news['url'],
+                    image = news['urlToImage'],
+                    #wing = news['source']['name'][:128],
+                    wing = news['title'],
+                    #text = news['description'][:100]
+                    text = art.text
+                    ).save()
+                count += 1
+        artic = NewsArticle.objects()
+        return jsonify([article.to_public_json() for article in artic])
+    else:
+        return "hahaha"
             
 
 @app.route("/api/newsarticle", methods=["POST"])

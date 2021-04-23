@@ -8,8 +8,8 @@ export default {
   create(post) {
     return Api().post('posts', post)
   },
-  get_articles() {
-    return Api().get('newsarticle')
+  get_articles(id) {
+    return Api().get('newsarticle/' + id )
   },
 
   delete(id) {

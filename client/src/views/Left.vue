@@ -13,7 +13,7 @@
         {{ artic.wing }} 
         </h2>
       <br>
-        <div style="margin-left: 1em;">
+        <div style="margin-left: 1em; line-height:2;">
         {{ artic.text }}
         </div>
      
@@ -34,7 +34,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles()
+    PostsService.get_articles("left")
       .then(response => {
         this.articles = response.data
       })
@@ -49,16 +49,19 @@ export default {
 
 h1 {
   text-align: center;
+  border: 15px solid blue;
+  color:rgb(230, 228, 228);
+  background-color: rgb(29, 29, 29);
 }
 h2 {
   text-align: center;
-  
 }
 ol {
   padding-left: 50px;
   padding-right: 50px;
   text-align:left;
-  background-color: orange;
+  color:rgb(255, 253, 253);
+  background-color: rgb(29, 29, 29);
   border: 2px solid black;
 }
 
