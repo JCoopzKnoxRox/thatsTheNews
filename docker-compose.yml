@@ -15,7 +15,7 @@ services:
       MONGODB_DATABASE: revue
       MONGODB_USERNAME: flaskuser
       MONGODB_PASSWORD: passwd123
-      MONGODB_HOSTNAME: mongodbx
+      MONGODB_HOSTNAME: mongodb
     volumes:
       - appdata:/var/www
     depends_on:
