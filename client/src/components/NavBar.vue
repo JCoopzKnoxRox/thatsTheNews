@@ -47,6 +47,10 @@ nav a {
   font-weight: bold;
   background-color:rgb(255, 0, 0);
 }
+.stocks{
+  font-weight: bold;
+  background-color:rgb(3, 146, 10);
+}
 
 .create-subvue {
   background-color: rgb(23, 92, 93);
