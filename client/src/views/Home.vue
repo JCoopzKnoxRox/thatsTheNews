@@ -1,38 +1,68 @@
 <template lang="html">
-  <div class="home container">
-    <h1>Recent Posts</h1>
-    <PostPreview v-for="post in posts" :key="post.id" :post="post">
-      {{ post.title }}
-    </PostPreview>
-
-    <CreateButton></CreateButton>
+  <div class="Home">
+    <h1>Top Headlines News</h1>
+      <ol v-for="artic in articles" :key="artic.link">
+      <img :src= artic.image 
+        width="800" 
+        height="500"
+      />
+      <br> 
+      <a v-bind:href= artic.link>Link</a>
+      <br> <br> 
+        <h2>
+        {{ artic.wing }} 
+        </h2>
+      <br>
+        <div style="margin-left: 1em; line-height:2;">
+        {{ artic.text }}
+        </div>
+     
+      <br> <br> <br>
+      </ol>
   </div>
 </template>
 
+
 <script>
-import PostPreview from '@/components/PostPreview'
 import PostsService from '@/services/PostsService'
-import CreateButton from '@/components/CreateButton'
-
 export default {
-  name: 'home',
+    name: 'Home',
 
-  components: { PostPreview, CreateButton },
-
-  data() {
-    return {
-      posts: null
-    }
-  },
-
+    data() {
+        return {
+          articles: null
+        }
+    },
   mounted() {
-    PostsService.index()
+    PostsService.get_articles("home")
       .then(response => {
-        this.posts = response.data
+        this.articles = response.data
       })
+    }
   }
-}
+
+
 </script>
 
-<style lang="css">
+
+<style scoped lang="css">
+
+h1 {
+  text-align: center;
+  border: 15px solid black;
+  color:rgb(230, 228, 228);
+  background-color: rgb(29, 29, 29);
+}
+h2 {
+  text-align: center;
+}
+ol {
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align:left;
+  color:rgb(255, 253, 253);
+  background-color: rgb(29, 29, 29);
+  border: 2px solid black;
+}
+
 </style>

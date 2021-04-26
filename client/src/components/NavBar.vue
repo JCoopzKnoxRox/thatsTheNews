@@ -3,6 +3,7 @@
     <router-link class="title" :to="{ name: 'Home', params: {} }">ThatsTheNewsHome</router-link>
     <router-link class="left" :to="{ name: 'Left', params: {} }">Left Wing News</router-link>
     <router-link class="right" :to="{ name: 'Right', params: {} }">Right Wing News</router-link>
+    <router-link class="stocks" :to="{ name: 'Stocks', params: {} }">Stock News</router-link>
   </nav>
 </template>
 
