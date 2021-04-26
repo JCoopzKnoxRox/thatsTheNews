@@ -142,6 +142,7 @@ def newsarticle_index(id : str):
                     ).save()
                 count += 1
         artic = NewsArticle.objects()
+        return jsonify([article.to_public_json() for article in artic])
     elif id == "stocks":
         #article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
         #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
@@ -167,7 +168,6 @@ def newsarticle_index(id : str):
                     ).save()
                 count += 1
         artic = NewsArticle.objects()
-        return jsonify([article.to_public_json() for article in artic])
         return jsonify([article.to_public_json() for article in artic])
     else:
         return "hahaha"
