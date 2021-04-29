@@ -7,7 +7,7 @@ ENV GROUP_ID=1000 \
 
 WORKDIR /var/www/
 
-
+RUN apk add --update --no-cache g++ gcc libxslt-dev libxml2-dev jpeg-dev zlib-dev
 ADD ./requirements.txt /var/www/requirements.txt
 RUN pip install -r requirements.txt
 ADD . /var/www/

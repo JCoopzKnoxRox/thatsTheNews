@@ -9,7 +9,7 @@ from authorization import login_required
 import requests
 import json
 from newspaper import Article
-import nlp
+#import nlp
 
 @app.route("/api/posts")
 def posts_index():

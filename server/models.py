@@ -12,7 +12,7 @@ from mongoengine import (
 
 username = os.environ.get('MONGODB_USERNAME')
 password = os.environ.get('MONGODB_PASSWORD')
-host = os.environ.get('MONGODB_HOSTNAME')
+host = os.environ.get('MONGODB_HOSTNAME','192.168.137.1')
 db = os.environ.get('MONGODB_DATABASE', "revue")
 connect(username=username, password=password, host=host, db=db)
 
