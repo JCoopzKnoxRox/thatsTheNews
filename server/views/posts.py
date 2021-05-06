@@ -59,15 +59,31 @@ def posts_create(username: str):
 
     return jsonify(post.to_public_json())
 
-@app.route("/api/newsarticle")
-def newsarticle_index():
-    artic = []
-    for article in NewsArticle.objects():
-        if (article.wing == "political"):
+@app.route("/api/newsarticle/<string:id>")
+def newsarticle_index(id: str):
+    if id == "political":
+        artic = []
+        for article in NewsArticle.objects():
+            if (article.wing == "political"):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "stocks":
+        artic = []
+        for article in NewsArticle.objects():
+            if (article.wing == "stocks"):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "everything":
+        artic = []
+        for article in NewsArticle.objects() :
             print(article.link, file=sys.stderr)
-            artic.append(article)
-    return jsonify([article.to_public_json() for article in artic])
+            artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
 
+    else:
+        return "error"
             
 
 @app.route("/api/newsarticle", methods=["POST"])

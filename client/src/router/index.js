@@ -14,9 +14,9 @@ const routes = [
     component:  () => import(/* webpackChunkName: "Left" */ '@/views/Left')
   },
   {
-    path: '/Right',
-    name: 'Right',
-    component:  () => import(/* webpackChunkName: "Right" */ '@/views/Right')
+    path: '/Politics',
+    name: 'Politics',
+    component:  () => import(/* webpackChunkName: "Politics" */ '@/views/Politics')
   },
   {
     path: '/Stocks',

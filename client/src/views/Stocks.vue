@@ -10,7 +10,7 @@
       <a v-bind:href= artic.link>Link</a>
       <br> <br> 
         <h2>
-        {{ artic.wing }} 
+        {{ artic.date }} 
         </h2>
       <br>
         <div style="margin-left: 1em; line-height:2;">
@@ -34,7 +34,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles()
+    PostsService.get_articles("stocks")
       .then(response => {
         this.articles = response.data
       })

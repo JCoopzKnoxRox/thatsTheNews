@@ -2,7 +2,7 @@
   <nav>
     <router-link class="title" :to="{ name: 'Home', params: {} }">ThatsTheNewsHome</router-link>
     <router-link class="left" :to="{ name: 'Left', params: {} }">Left Wing News</router-link>
-    <router-link class="right" :to="{ name: 'Right', params: {} }">Right Wing News</router-link>
+    <router-link class="politics" :to="{ name: 'Politics', params: {} }">Political News</router-link>
     <router-link class="stocks" :to="{ name: 'Stocks', params: {} }">Stock News</router-link>
   </nav>
 </template>
@@ -40,9 +40,9 @@ nav a {
   font-weight: bold;
   background-color:rgb(0, 119, 255);
 }
-.right{
+.politics{
   font-weight: bold;
-  background-color:rgb(255, 0, 0);
+  background: linear-gradient(to right, #0400ff 0%, #fc0000 100%);
 }
 .stocks{
   font-weight: bold;

@@ -21,13 +21,17 @@ class NewsArticle(Document):
     image = URLField()
     wing = StringField(required=True, unique=False)
     text = StringField(required=True, unique=False)
+    title = StringField(required=True, unique=False)
+    date = StringField(required=True, unique=False)
 
     def to_public_json(self):
         data = {
             "link": self.link,
             "image": self.image,
             "wing": self.wing,
-            "text": self.text
+            "text": self.text,
+            "title": self.title,
+            "date": self.date
         }
 
         return data
