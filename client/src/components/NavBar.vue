@@ -12,11 +12,7 @@ export default {
   name: 'nav',
 
   methods: {
-    logout() {
-      this.$store.dispatch('setToken', null)
-      this.$store.dispatch('setUser', null)
-      this.$router.push({name: 'Home'})
-    }
+    
   }
 }
 </script>
@@ -52,16 +48,6 @@ nav a {
   font-weight: bold;
   background-color:rgb(3, 146, 10);
 }
-
-.create-subvue {
-  background-color: rgb(23, 92, 93);
-  color: white !important;
-}
-
-.create-subvue:hover {
-  background-color: rgb(7, 44, 45) !important;
-}
-
 .dropdown {
   float: left;
   overflow: hidden;

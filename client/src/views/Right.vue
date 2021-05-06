@@ -34,7 +34,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles("right")
+    PostsService.get_articles()
       .then(response => {
         this.articles = response.data
       })

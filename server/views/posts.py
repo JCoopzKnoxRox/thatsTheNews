@@ -1,5 +1,4 @@
 from schema import Schema, And
-
 import utils
 from app import app
 from flask import jsonify, request
@@ -60,157 +59,15 @@ def posts_create(username: str):
 
     return jsonify(post.to_public_json())
 
-@app.route("/api/newsarticle/<string:id>")
-def newsarticle_index(id : str):
-    cnn_paper = newspaper.build("https://www.cnn.com",  memorize_articles=True, language = 'en')
-    nbc_paper = newspaper.build("https://www.nbcnews.com",  memorize_articles=True, language = 'en')
-    nyt_paper = newspaper.build("https://www.nytimes.com/",  memorize_articles=False, language = 'en')
-    apn_paper = newspaper.build("https://apnews.com/",  memorize_articles=False, language = 'en')
-    abc_paper = newspaper.build("https://abcnews.go.com/",  memorize_articles=False, language = 'en')
-    papers = [cnn_paper, nbc_paper, nyt_paper, apn_paper, abc_paper]
-    print("all built", file=sys.stderr)
-    #newarticles = NewsArticle.objects().order_by("-created")
-    #return jsonify([article.to_public_json() for article in newarticles])
-    count = 0
-    #sort the API return list with arguments: everything?q=Apple&from=2021-04-16&sortBy=popularity
-    article_list = []
-    if id == "right":
-      #article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        #news_json = json.loads(article_list.text)
-        #for article in article_list.articles:
-           #print(article.url, file=sys.stderr)
-        news_pool.set(papers, threads_per_source=1000)
-        news_pool.join()
-        #print(article_list.articles[0].url, file=sys.stderr)
-        #for article in article_list.articles:
-            #article.parse()
-            #print(article.url + "\n", file=sys.stderr)
-            #print(article.text + "\n\n\n\n\n\n\n", file=sys.stderr)
-        #first_article = article_list.articles[3]
-        #first_article.parse()
-        #print(first_article.text, file=sys.stderr)
-        #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        for build in papers:
-            for news in (build.articles):
-                #len(news_json['articles'])
-                    #user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-                    #config = Config()
-                    #config.browser_user_agent = user_agent
-                    #print(news.url, file=sys.stderr)
-                    if "politics" in news.url:
-                        news.parse()
-                        article = NewsArticle(
-                            #128 characters is the max string length in MONGODB
-                            link = news.url,
-                            image = news.top_image,
-                            #wing = news['source']['name'][:128],
-                            wing = "political",
-                            #text = news['description'][:100]
-                            text = news.text
-                            ).save()
-                        count += 1
-        artic = []
-        for article in NewsArticle.objects():
-            if (article.wing == "political"):
-                print(article.link, file=sys.stderr)
-                artic.append(article)
-        return jsonify([article.to_public_json() for article in artic])
-    elif id == "left":
-        #article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        #news_json = json.loads(article_list.text)
-        #for article in article_list.articles:
-           #print(article.url, file=sys.stderr)
-        news_pool.set(papers, threads_per_source=1000)
-        news_pool.join()
-        #print(article_list.articles[0].url, file=sys.stderr)
-        #for article in article_list.articles:
-            #article.parse()
-            #print(article.url + "\n", file=sys.stderr)
-            #print(article.text + "\n\n\n\n\n\n\n", file=sys.stderr)
-        #first_article = article_list.articles[3]
-        #first_article.parse()
-        #print(first_article.text, file=sys.stderr)
-        #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        for build in papers:
-            for news in (build.articles):
-                #len(news_json['articles'])
-                    #user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-                    #config = Config()
-                    #config.browser_user_agent = user_agent
-                    if "politics" in news.url:
-                        news.parse()
-                        article = NewsArticle(
-                            #128 characters is the max string length in MONGODB
-                            link = news.url,
-                            image = news.top_image,
-                            #wing = news['source']['name'][:128],
-                            wing = "political",
-                            #text = news['description'][:100]
-                            text = news.text
-                            ).save()
-                        print(news.movies, file=sys.stderr)
-                        count += 1
-        artic = []
-        for article in NewsArticle.objects():
-            if (article.wing == "political"):
-                artic.append(article)
-        return jsonify([article.to_public_json() for article in artic])
-    elif id == "home":
-        article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        news_json = json.loads(article_list.text)
-        #article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        for news in (news_json['articles']):
-            #len(news_json['articles'])
-            if count<len(news_json['articles']):
-                #user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-                #config = Config()
-                #config.browser_user_agent = user_agent
-                art = Article(news['url'])
-                art.download()
-                art.parse()
-                article = NewsArticle(
-                    #128 characters is the max string length in MONGODB
-                    link = news['url'],
-                    image = news['urlToImage'],
-                    #wing = news['source']['name'][:128],
-                    wing = news['title'],
-                    #text = news['description'][:100]
-                    text = art.text
-                    ).save()
-                count += 1
-        artic = NewsArticle.objects()
-        return jsonify([article.to_public_json() for article in artic])
-    elif id == "stocks":
-        #article_list = requests.get("http://newsapi.org/v2/top-headlines?country=us&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        #article_list = requests.get("http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        article_list = requests.get("http://newsapi.org/v2/everything?q=Stocks&sortBy=popularity&apiKey=8d4f60725e81455fa280396b8e9c64a2")
-        news_json = json.loads(article_list.text)
-        for news in (news_json['articles']):
-            #len(news_json['articles'])
-            if count<len(news_json['articles']):
-                #user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-                #config = Config()
-                #config.browser_user_agent = user_agent
-                art = Article(news['url'])
-                art.download()
-                art.parse()
-                article = NewsArticle(
-                    #128 characters is the max string length in MONGODB
-                    link = news['url'],
-                    image = news['urlToImage'],
-                    #wing = news['source']['name'][:128],
-                    wing = news['title'],
-                    #text = news['description'][:100]
-                    text = art.text
-                    ).save()
-                count += 1
-        artic = NewsArticle.objects()
-        return jsonify([article.to_public_json() for article in artic])
-    else:
-        return "hahaha"
+@app.route("/api/newsarticle")
+def newsarticle_index():
+    artic = []
+    for article in NewsArticle.objects():
+        if (article.wing == "political"):
+            print(article.link, file=sys.stderr)
+            artic.append(article)
+    return jsonify([article.to_public_json() for article in artic])
+
             
 
 @app.route("/api/newsarticle", methods=["POST"])
