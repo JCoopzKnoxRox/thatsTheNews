@@ -9,9 +9,34 @@ const routes = [
     component: Home
   },
   {
-    path: '/Left',
-    name: 'Left',
-    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Left')
+    path: '/Covid',
+    name: 'Covid',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Covid')
+  },
+  {
+    path: '/Entertainment',
+    name: 'Entertainment',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Entertainment')
+  },
+  {
+    path: '/Climate',
+    name: 'Climate',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Climate')
+  },
+  {
+    path: '/Crypto',
+    name: 'Crypto',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Crypto')
+  },
+  {
+    path: '/Sports',
+    name: 'Sports',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Sports')
+  },
+  {
+    path: '/Tech',
+    name: 'Tech',
+    component:  () => import(/* webpackChunkName: "Left" */ '@/views/Tech')
   },
   {
     path: '/Politics',

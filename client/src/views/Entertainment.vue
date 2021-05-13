@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="Politics">
-    <h1>Political News</h1>
+  <div class="Entertainment">
+    <h1>Entertainment News</h1>
       <ol v-for="artic in articles" :key="artic.link">
       <img :src= artic.image 
         width="800" 
@@ -25,7 +25,7 @@
 <script>
 import PostsService from '@/services/PostsService'
 export default {
-    name: 'Politics',
+    name: 'Entertainment',
 
     data() {
         return {
@@ -33,7 +33,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles("political")
+    PostsService.get_articles("entertainment")
       .then(response => {
         this.articles = response.data
       })
@@ -49,7 +49,7 @@ export default {
 h1 {
   text-align: center;
   color:rgb(230, 228, 228);
-  background: linear-gradient(to right, #0400ff 0%, #fc0000 100%);
+  background: linear-gradient(to right, #ffa600 0%, #fc0000 100%);
 }
 h2 {
   text-align: center;

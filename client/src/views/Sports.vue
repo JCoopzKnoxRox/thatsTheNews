@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="Politics">
-    <h1>Political News</h1>
+  <div class="Sports">
+    <h1>Sporting News</h1>
       <ol v-for="artic in articles" :key="artic.link">
       <img :src= artic.image 
         width="800" 
@@ -10,7 +10,7 @@
       <a v-bind:href= artic.link>Link</a>
       <br> <br> 
         <h2>
-        {{ artic.title }} 
+        {{ artic.title}} 
         </h2>
       <br>
         <textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea>
@@ -25,7 +25,7 @@
 <script>
 import PostsService from '@/services/PostsService'
 export default {
-    name: 'Politics',
+    name: 'Sports',
 
     data() {
         return {
@@ -33,7 +33,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles("political")
+    PostsService.get_articles("sports")
       .then(response => {
         this.articles = response.data
       })

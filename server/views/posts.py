@@ -71,17 +71,58 @@ def newsarticle_index(id: str):
     elif id == "stocks":
         artic = []
         for article in NewsArticle.objects():
-            if (article.wing == "stocks"):
+            if (article.wing == "buisness"):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
         return jsonify([article.to_public_json() for article in artic])
+    elif id == "covid":
+        artic = []
+        for article in NewsArticle.objects():
+            if (article.wing == "covid"):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])    
     elif id == "everything":
         artic = []
         for article in NewsArticle.objects() :
             print(article.link, file=sys.stderr)
             artic.insert(0,article)
         return jsonify([article.to_public_json() for article in artic])
-
+    elif id == "tech":
+        artic = []
+        for article in NewsArticle.objects() :
+            if (article.wing == "tech" and "#comments" not in article.link):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "sports":
+        artic = []
+        for article in NewsArticle.objects() :
+            if (article.wing == "sports"):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "entertainment":
+        artic = []
+        for article in NewsArticle.objects() :
+            if (article.wing == "entertainment" and "magazine.store" not in article.link and "https://ew.com" in article.link):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "crypto":
+        artic = []
+        for article in NewsArticle.objects() :
+            if (article.wing == "crypto" and ".htm" in article.link):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
+    elif id == "climate":
+        artic = []
+        for article in NewsArticle.objects() :
+            if (article.wing == "climate"):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+        return jsonify([article.to_public_json() for article in artic])
     else:
         return "error"
             

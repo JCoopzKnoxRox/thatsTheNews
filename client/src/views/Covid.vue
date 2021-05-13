@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="Politics">
-    <h1>Political News</h1>
+  <div class="Covid">
+    <h1>Covid News</h1>
       <ol v-for="artic in articles" :key="artic.link">
       <img :src= artic.image 
         width="800" 
@@ -10,11 +10,12 @@
       <a v-bind:href= artic.link>Link</a>
       <br> <br> 
         <h2>
-        {{ artic.title }} 
+        {{ artic.wing }} 
         </h2>
       <br>
-        <textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea>
-        
+        <div style="margin-left: 1em; line-height:2;">
+        {{ artic.text }}
+        </div>
      
       <br> <br> <br>
       </ol>
@@ -25,7 +26,7 @@
 <script>
 import PostsService from '@/services/PostsService'
 export default {
-    name: 'Politics',
+    name: 'Covid',
 
     data() {
         return {
@@ -33,7 +34,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles("political")
+    PostsService.get_articles("covid")
       .then(response => {
         this.articles = response.data
       })
@@ -48,8 +49,9 @@ export default {
 
 h1 {
   text-align: center;
+  border: 15px solid blue;
   color:rgb(230, 228, 228);
-  background: linear-gradient(to right, #0400ff 0%, #fc0000 100%);
+  background-color: rgb(29, 29, 29);
 }
 h2 {
   text-align: center;

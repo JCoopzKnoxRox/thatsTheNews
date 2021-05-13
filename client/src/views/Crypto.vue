@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="Left">
-    <h1>Left Wing News</h1>
+  <div class="Crypto">
+    <h1>Crypto News</h1>
       <ol v-for="artic in articles" :key="artic.link">
       <img :src= artic.image 
         width="800" 
@@ -10,12 +10,11 @@
       <a v-bind:href= artic.link>Link</a>
       <br> <br> 
         <h2>
-        {{ artic.wing }} 
+        {{ artic.title }} 
         </h2>
       <br>
-        <div style="margin-left: 1em; line-height:2;">
-        {{ artic.text }}
-        </div>
+        <textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea>
+        
      
       <br> <br> <br>
       </ol>
@@ -26,7 +25,7 @@
 <script>
 import PostsService from '@/services/PostsService'
 export default {
-    name: 'Left',
+    name: 'Crypto',
 
     data() {
         return {
@@ -34,7 +33,7 @@ export default {
         }
     },
   mounted() {
-    PostsService.get_articles("left")
+    PostsService.get_articles("crypto")
       .then(response => {
         this.articles = response.data
       })
@@ -49,9 +48,8 @@ export default {
 
 h1 {
   text-align: center;
-  border: 15px solid blue;
   color:rgb(230, 228, 228);
-  background-color: rgb(29, 29, 29);
+  background: linear-gradient(to right, #ffa600 0%, #fce300 100%);
 }
 h2 {
   text-align: center;
