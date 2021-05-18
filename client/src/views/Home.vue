@@ -10,7 +10,7 @@
       <a v-bind:href= artic.link>Link</a>
       <br> <br> 
         <h2>
-        {{ artic.date }} 
+        {{ artic.title }} 
         </h2>
       <br>
         <div style="margin-left: 1em; line-height:2;">

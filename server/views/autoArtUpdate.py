@@ -1,3 +1,7 @@
+# importing libraries
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
 import json
 import sys
 import newspaper
@@ -13,8 +17,6 @@ from newspaper import Article, Config, news_pool
 from schema import And, Schema
 from apscheduler.schedulers.background import BackgroundScheduler
 from time import strftime
-
-
 
 def auto_article_go_getter():
     print("starting builds ", file=sys.stderr)
@@ -48,108 +50,128 @@ def auto_article_go_getter():
     count = 0
     article_list = []
     print("Starting pool threading", file=sys.stderr)
+    print("Starting pool for papers", file=sys.stderr)
     news_pool.set(papers, threads_per_source=1000)
     news_pool.join()
+    print("Finished pool threading for papers", file=sys.stderr)
+    print("Starting pool for techp", file=sys.stderr)
     news_pool.set(techP, threads_per_source=1000)
     news_pool.join()
+    print("Finished pool threading for techp", file=sys.stderr)
+    print("Starting pool for sportp", file=sys.stderr)
     news_pool.set(sportP, threads_per_source=1000)
     news_pool.join()
+    print("Finished pool threading for sportp", file=sys.stderr)
+    print("Starting pool for entertainmentp", file=sys.stderr)
     news_pool.set(entertainmentP, threads_per_source=1000)
     news_pool.join()
+    print("Finished pool threading for entertainmentp", file=sys.stderr)
+    print("Starting pool for cryptop", file=sys.stderr)
     news_pool.set(cryptoP, threads_per_source=1000)
     news_pool.join()
+    print("Finished pool threading for cryptop", file=sys.stderr)
+    print("Starting pool for climatep", file=sys.stderr)
     news_pool.set(climateP, threads_per_source=1000)
     news_pool.join()
+    print("Finished pool threading for climatep", file=sys.stderr)
     print("Saving articles to mongodb", file=sys.stderr)
     for build in papers:
         for news in (build.articles):
-            Date = news.publish_date
             if "politics" in news.url:
                 news.parse()
+                #call on text summarizer with text of article
+                textSum = text_summarizer(news.text)
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
                     wing = "political",
-                    text = news.text,
-                    title = news.title,
-                    date = Date #.strftime("%m/%d/%Y")
+                    #text = news.text,
+                    text = textSum,
+                    title = news.title
                     ).save()
             elif "buisness" in news.url:
                 news.parse()
+                #call on text summarizer with text of article
+                textSum = text_summarizer(news.text)
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
                     wing = "buisness",
-                    text = news.text,
-                    title = news.title,
-                    date = Date #.strftime("%m/%d/%Y")
+                    text = textSum,
+                    title = news.title
                     ).save()
             elif "covid" in news.url or "corona" in news.url:
                 news.parse()
+                #call on text summarizer with text of article
+                textSum = text_summarizer(news.text)
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
                     wing = "covid",
-                    text = news.text,
-                    title = news.title,
-                    date = Date #.strftime("%m/%d/%Y")
+                    text = textSum,
+                    title = news.title
                     ).save()
                 count += 1
     for build in techP:
         for news in (build.articles):
             news.parse()
+            #call on text summarizer with text of article
+            textSum = text_summarizer(news.text)
             if "#comments" not in news.url:
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
                     wing = "tech",
-                    text = news.text,
-                    title = news.title,
-                    date = Date #.strftime("%m/%d/%Y")
+                    text = textSum,
+                    title = news.title
                     ).save()
     for build in sportP:
         for news in (build.articles):
             news.parse()
+            #call on text summarizer with text of article
+            textSum = text_summarizer(news.text)
             article = NewsArticle(
                 link = news.url,
                 image = news.top_image,
                 wing = "sports",
-                text = news.text,
-                title = news.title,
-                date = Date #.strftime("%m/%d/%Y")
+                text = textSum,
+                title = news.title
                 ).save()
     for build in entertainmentP:
         for news in (build.articles):
             news.parse()
+            #call on text summarizer with text of article
+            textSum = text_summarizer(news.text)
             article = NewsArticle(
                 link = news.url,
                 image = news.top_image,
                 wing = "entertainment",
-                text = news.text,
-                title = news.title,
-                date = Date #.strftime("%m/%d/%Y")
+                text = textSum,
+                title = news.title
                 ).save()
     for build in cryptoP:
         for news in (build.articles):
             news.parse()
+            #call on text summarizer with text of article
+            textSum = text_summarizer(news.text)
             article = NewsArticle(
                 link = news.url,
                 image = news.top_image,
                 wing = "crypto",
-                text = news.text,
-                title = news.title,
-                date = Date #.strftime("%m/%d/%Y")
+                text = textSum,
+                title = news.title
                 ).save()
     for build in climateP:
         for news in (build.articles):
             news.parse()
+            #call on text summarizer with text of article
+            textSum = text_summarizer(news.text)
             article = NewsArticle(
                 link = news.url,
                 image = news.top_image,
                 wing = "climate",
-                text = news.text,
-                title = news.title,
-                date = Date #.strftime("%m/%d/%Y")
+                text = textSum,
+                title = news.title
                 ).save()            
     print("Articles saved in mongodb", file=sys.stderr)
 
@@ -161,3 +183,60 @@ scheduler.add_job(auto_article_go_getter, 'interval', next_run_time=datetime.dat
 print("starting scheduler", file=sys.stderr)
 scheduler.start()
 print("finished schedule", file=sys.stderr)
+
+
+def text_summarizer(text):     
+    print("Starting Text Summarizer", file=sys.stderr) 
+    if (len(text) <= 0): 
+        return text
+    else:   
+        # Tokenizing the text
+        stopWords = set(stopwords.words("english"))
+        words = word_tokenize(text)
+        #print(text, file=sys.stderr) 
+        print(text +"\n \n \n \n \n \n \n \n \n", file=sys.stderr)
+        
+        # Creating a frequency table to keep the 
+        # score of each word
+        
+        freqTable = dict()
+        for word in words:
+            word = word.lower()
+            if word in stopWords:
+                continue
+            if word in freqTable:
+                freqTable[word] += 1
+            else:
+                freqTable[word] = 1
+        
+        # Creating a dictionary to keep the score
+        # of each sentence
+        sentences = sent_tokenize(text)
+        sentenceValue = dict()
+        
+        for sentence in sentences:
+            for word, freq in freqTable.items():
+                if word in sentence.lower():
+                    if sentence in sentenceValue:
+                        sentenceValue[sentence] += freq
+                    else:
+                        sentenceValue[sentence] = freq
+        
+        
+        
+        sumValues = 0
+        for sentence in sentenceValue:
+            sumValues += sentenceValue[sentence]
+        
+        # Average value of a sentence from the original text
+        
+        average = int(sumValues / len(sentenceValue))
+        
+        # Storing sentences into our summary.
+        summary = ''
+        for sentence in sentences:
+            if (sentence in sentenceValue) and (sentenceValue[sentence] > (1.2 * average)):
+                summary += " " + sentence
+
+        print(summary + "\n \n \n", file=sys.stderr) 
+        return summary
