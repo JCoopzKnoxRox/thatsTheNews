@@ -6,3 +6,4 @@ schema==0.7.1
 newspaper3k
 newsapi-python
 apscheduler
+nltk
