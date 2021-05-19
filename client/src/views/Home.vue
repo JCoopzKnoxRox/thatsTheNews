@@ -2,12 +2,12 @@
   <div class="Home">
     <h1>Top Headlines News</h1>
       <ol v-for="artic in articles" :key="artic.link">
-      <img :src= artic.image 
+      <h2><img :src= artic.image 
         width="800" 
         height="500"
-      />
+      /> </h2>
       <br> 
-      <a v-bind:href= artic.link>Link</a>
+      <h2> <a v-bind:href= artic.link>Link To Article</a> </h2>
       <br> <br> 
         <h2>
         {{ artic.title }} 
