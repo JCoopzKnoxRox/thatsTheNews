@@ -2,18 +2,18 @@
   <div class="Politics">
     <h1>Political News</h1>
       <ol v-for="artic in articles" :key="artic.link">
-      <img :src= artic.image 
+      <h2><img :src= artic.image 
         width="800" 
         height="500"
-      />
+      /></h2>
       <br> 
-      <a v-bind:href= artic.link>Link</a>
+      <h2><a v-bind:href= artic.link>Link</a></h2>
       <br> <br> 
         <h2>
         {{ artic.title }} 
         </h2>
       <br>
-        <textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea>
+        <h2><textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea> </h2>
         
      
       <br> <br> <br>

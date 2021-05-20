@@ -62,66 +62,87 @@ def posts_create(username: str):
 @app.route("/api/newsarticle/<string:id>")
 def newsarticle_index(id: str):
     if id == "political":
+        count = 0
         artic = []
         for article in NewsArticle.objects():
-            if (article.wing == "political"):
+            if (article.wing == "political") and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     elif id == "stocks":
+        count = 0
         artic = []
         for article in NewsArticle.objects():
-            if (article.wing == "buisness"):
+            if (article.wing == "buisness") and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     elif id == "covid":
         artic = []
-        for article in NewsArticle.objects():
-            if (article.wing == "covid"):
+        count = 0
+        for article in NewsArticle.objects() :
+            if (article.wing == "covid") and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])    
     elif id == "everything":
         artic = []
-        for article in NewsArticle.objects() :
-            print(article.link, file=sys.stderr)
-            artic.insert(0,article)
+        count = 0
+        for article in NewsArticle.objects():
+            if (count <10):
+                print(article.link, file=sys.stderr)
+                artic.insert(0,article)
+                count+1
+            else:
+                break
         return jsonify([article.to_public_json() for article in artic])
     elif id == "tech":
         artic = []
+        count = 0
         for article in NewsArticle.objects() :
-            if (article.wing == "tech" and "#comments" not in article.link):
+            if (article.wing == "tech" and "#comments" not in article.link) and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     elif id == "sports":
         artic = []
+        count = 0
         for article in NewsArticle.objects() :
-            if (article.wing == "sports"):
+            if (article.wing == "sports") and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     elif id == "entertainment":
         artic = []
+        count=0
         for article in NewsArticle.objects() :
-            if (article.wing == "entertainment" and "magazine.store" not in article.link and "https://ew.com" in article.link):
+            if (article.wing == "entertainment" and "magazine.store" not in article.link and "https://ew.com" in article.link) and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     elif id == "crypto":
         artic = []
+        count = 0
         for article in NewsArticle.objects() :
-            if (article.wing == "crypto" and ".htm" in article.link):
+            if (article.wing == "crypto" and ".htm" in article.link) and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     elif id == "climate":
         artic = []
+        count = 0
         for article in NewsArticle.objects() :
-            if (article.wing == "climate"):
+            if (article.wing == "climate") and (count < 10):
                 print(article.link, file=sys.stderr)
                 artic.insert(0,article)
+                count+1
         return jsonify([article.to_public_json() for article in artic])
     else:
         return "error"

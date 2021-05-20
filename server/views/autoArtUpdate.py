@@ -23,14 +23,14 @@ def auto_article_go_getter():
     cnn_paper = newspaper.build("https://www.cnn.com",  memorize_articles=True, language = 'en')
     print("cnn_paper built", file=sys.stderr)
     nbc_paper = newspaper.build("https://www.nbcnews.com",  memorize_articles=True, language = 'en')
-    print("nbc_paper built", file=sys.stderr)
-    nyt_paper = newspaper.build("https://www.nytimes.com/",  memorize_articles=True, language = 'en')
-    print("nyt_paper built", file=sys.stderr)
+    #print("nbc_paper built", file=sys.stderr)
+    #nyt_paper = newspaper.build("https://www.nytimes.com/",  memorize_articles=True, language = 'en')
+    #print("nyt_paper built", file=sys.stderr)
     apn_paper = newspaper.build("https://apnews.com/",  memorize_articles=True, language = 'en')
     print("apn_paper built", file=sys.stderr)
     abc_paper = newspaper.build("https://abcnews.go.com/",  memorize_articles=True, language = 'en')
     print("abc_paper built", file=sys.stderr)
-    papers = [cnn_paper, nbc_paper, nyt_paper, apn_paper, abc_paper]
+    papers = [cnn_paper, nbc_paper, apn_paper, abc_paper]
     verge_paper = newspaper.build("https://www.theverge.com/",  memorize_articles=True, language = 'en')
     print("verge_paper built", file=sys.stderr)
     techP = [verge_paper]
@@ -89,7 +89,9 @@ def auto_article_go_getter():
                     text = textSum,
                     title = news.title
                     ).save()
-            elif "buisness" in news.url:
+            #email_services = ["hotmail", "gmail", "yahoo"] 
+            #email_contains_service = any(email_service in user_email for email_service in email_services)
+            elif ["stock", "net", "loss", "Q1", "Q2", "Q3", "Q4", "Gain"] in word_tokenize(news.text):
                 news.parse()
                 #call on text summarizer with text of article
                 textSum = text_summarizer(news.text)

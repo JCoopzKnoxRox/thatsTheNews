@@ -13,9 +13,7 @@
         {{ artic.title }} 
         </h2>
       <br>
-        <div style="margin-left: 1em; line-height:2;">
-        {{ artic.text }}
-        </div>
+        <h2><textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea> </h2>
      
       <br> <br> <br>
       </ol>

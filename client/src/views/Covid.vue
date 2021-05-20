@@ -2,20 +2,18 @@
   <div class="Covid">
     <h1>Covid News</h1>
       <ol v-for="artic in articles" :key="artic.link">
-      <img :src= artic.image 
+      <h2><img :src= artic.image 
         width="800" 
         height="500"
-      />
+      /></h2>
       <br> 
-      <a v-bind:href= artic.link>Link</a>
+      <h2><a v-bind:href= artic.link>Link</a></h2>
       <br> <br> 
         <h2>
-        {{ artic.wing }} 
+        {{ artic.title }} 
         </h2>
       <br>
-        <div style="margin-left: 1em; line-height:2;">
-        {{ artic.text }}
-        </div>
+        <h2><textarea rows ="10" cols = "200" v-model="artic.text" disabled=true dark=true></textarea> </h2>
      
       <br> <br> <br>
       </ol>

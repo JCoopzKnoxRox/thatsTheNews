@@ -2,10 +2,10 @@
   <div class="Climate">
     <h1>Climate News</h1>
       <ol v-for="artic in articles" :key="artic.link">
-      <img :src= artic.image 
+      <h2><img :src= artic.image 
         width="800" 
         height="500"
-      />
+      /></h2>
       <br> 
       <a v-bind:href= artic.link>Link</a>
       <br> <br> 
