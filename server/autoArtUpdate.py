@@ -6,17 +6,17 @@ import json
 import sys
 import newspaper
 import requests
-import utils
 import datetime
-from app import app
-from authorization import login_required
-from flask import jsonify, request
-from models import NewsArticle
 from mongoengine.errors import ValidationError
 from newspaper import Article, Config, news_pool
 from schema import And, Schema
 from apscheduler.schedulers.background import BackgroundScheduler
 from time import strftime
+from flask import jsonify, request
+from app import app
+from authorization import login_required
+from models import NewsArticle
+import utils
 
 def auto_article_go_getter():
     print("starting builds ", file=sys.stderr)
@@ -77,10 +77,12 @@ def auto_article_go_getter():
     print("Saving articles to mongodb", file=sys.stderr)
     for build in papers:
         for news in (build.articles):
-            if "politics" in news.url:
+            if "politics" in news.url and "cnnespanol" not in news.url:
                 news.parse()
                 #call on text summarizer with text of article
                 textSum = text_summarizer(news.text)
+                if "apnews.com" in news.url:
+                    textSum = news.text
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
@@ -95,6 +97,8 @@ def auto_article_go_getter():
                 news.parse()
                 #call on text summarizer with text of article
                 textSum = text_summarizer(news.text)
+                if "apnews.com" in news.url:
+                    textSum = news.text
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
@@ -119,6 +123,8 @@ def auto_article_go_getter():
             news.parse()
             #call on text summarizer with text of article
             textSum = text_summarizer(news.text)
+            if "apnews.com" in news.url:
+                    textSum = news.text
             if "#comments" not in news.url:
                 article = NewsArticle(
                     link = news.url,
@@ -242,3 +248,6 @@ def text_summarizer(text):
 
         print(summary + "\n \n \n", file=sys.stderr) 
         return summary
+
+if __name__ == "__main__": 
+    auto_article_go_getter()

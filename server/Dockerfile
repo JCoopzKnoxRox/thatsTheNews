@@ -47,7 +47,8 @@ USER www
 
 EXPOSE 5000 
 # this is a backup command # CMD ["flask", "run", "-h", "0.0.0.0", "--debugger"] 
-CMD [ "gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--log-level", "debug", "wsgi"]
+CMD [ "sh", "./sun.sh" ]
+
 
 
 #notes for restarting the droplet, does not affect database

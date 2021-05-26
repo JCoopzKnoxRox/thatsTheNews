@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="Home">
     <h1>Top Headlines News</h1>
+      <p> This Webseite is intended to summarize the news in a time efficent way to make news more accesible. The summarization may not provide all the information and we encourage readers to do their own research into topics that concern or interest them.</p>
       <ol v-for="artic in articles" :key="artic.link">
       <h2><img :src= artic.image 
         width="800" 
@@ -17,6 +18,7 @@
      
       <br> <br> <br>
       </ol>
+      <p> You have reached the end of the news buffer, please check back another time to see more.</p>
   </div>
 </template>
 
@@ -61,6 +63,12 @@ ol {
   color:rgb(255, 253, 253);
   background-color: rgb(29, 29, 29);
   border: 2px solid black;
+}
+p {
+  text-align: center;
+  border: 15px solid black;
+  color:rgb(230, 228, 228);
+  background-color: rgb(29, 29, 29);
 }
 
 </style>

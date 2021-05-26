@@ -18,6 +18,7 @@
      
       <br> <br> <br>
       </ol>
+      <p> You have reached the end of the news buffer, please check back another time to see more.</p>
   </div>
 </template>
 
@@ -62,5 +63,10 @@ ol {
   background-color: rgb(29, 29, 29);
   border: 2px solid black;
 }
-
+p {
+  text-align: center;
+  border: 15px solid black;
+  color:rgb(230, 228, 228);
+  background-color: rgb(29, 29, 29);
+}
 </style>

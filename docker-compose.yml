@@ -12,12 +12,12 @@ services:
       APP_DEBUG: "true"
       APP_PORT: 5000
       FLASK_ENV: "DEVELOPMENT"
-      MONGODB_DATABASE: revue
+      MONGODB_DATABASE: thatsTheNews
       MONGODB_USERNAME: flaskuser
       MONGODB_PASSWORD: passwd123
       MONGODB_HOSTNAME: mongodb
     volumes:
-      - appdata:/var/www
+      - ./server:/var/www
     depends_on:
       - mongodb
     networks:
@@ -32,7 +32,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: flaskuser
       MONGO_INITDB_ROOT_PASSWORD: passwd123
-      MONGO_INITDB_DATABASE: revue
+      MONGO_INITDB_DATABASE: thatsTheNews
       MONGODB_DATA_DIR: /data/db
       MONGODB_LOG_DIR: /dev/null
     volumes:
