@@ -110,6 +110,8 @@ def auto_article_go_getter():
                 news.parse()
                 #call on text summarizer with text of article
                 textSum = text_summarizer(news.text)
+                if "apnews.com" in news.url:
+                    textSum = news.text
                 article = NewsArticle(
                     link = news.url,
                     image = news.top_image,
